@@ -17,12 +17,20 @@ form.addEventListener('submit', (event) => {
         .then((userCredential) => {
             const user = userCredential.user;
             console.log(user);
-            window.location.href = "home.html"
+            alert('you are login')
+            window.location = "home.html"
         })
         .catch((error) => {
             const errorCode = error.code;
             const errorMessage = error.message;
             console.log(errorMessage);
+            if (email.value==''&&password.value=='') {
+                alert('fill the input')
+            } else{
+                alert(errorMessage)
+            }
+            email.value=''
+            password.value=''
         });
 
 })

@@ -16,10 +16,22 @@ form.addEventListener('submit', (event) => {
         .then((userCredential) => {
             const user = userCredential.user;
             console.log(user);
+            alert('you are register')
+            window.location='index.html'
         })
         .catch((error) => {
             const errorMessage = error.message;
             console.log(errorMessage);
+            if (email.value==''&&password.value=='') {
+                alert('fill the input')
+            } else{
+                alert(errorMessage)
+            }
+            email.value=''
+            password.value=''
+            // alert('you are register' )
         });
+        // email.value=''
+        // password.value=''
 
 })
