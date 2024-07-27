@@ -72,3 +72,30 @@ a {
 a:hover {
     text-decoration: underline;
 }
+
+.google_btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 15%;
+    padding: 10px;
+    margin-top: 20px;
+    border: none;
+    border-radius: 5px;
+    background: #fff;
+    color: #757575;
+    font-size: 0.9rem;
+    font-weight: 510;
+    cursor: pointer;
+}
+
+.google_btn img {
+    margin-right: 10px;
+}
+
+.google_btn:hover {
+    background: #6a11cb;
+    transition: all;
+    transition-duration: 0.3s;
+    color: #fff;
+}
