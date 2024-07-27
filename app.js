@@ -22,9 +22,10 @@ form.addEventListener('submit', (event) => {
             console.log(user);
             alert('you are login')
             window.location = "home.html"
+            email.value = ''
+            password.value = ''
         })
         .catch((error) => {
-            const errorCode = error.code;
             const errorMessage = error.message;
             console.log(errorMessage);
             email.value = '';
@@ -38,16 +39,12 @@ google_btn.addEventListener('click', () => {
 
     signInWithPopup(auth, provider)
         .then((result) => {
-            const credential = GoogleAuthProvider.credentialFromResult(result);
-            const token = credential.accessToken;
             const user = result.user;
             console.log(user);
             window.location = 'home.html'
         }).catch((error) => {
-            const errorCode = error.code;
+             // Handle Errors here.
             const errorMessage = error.message;
-            const email = error.customData.email;
-            const credential = GoogleAuthProvider.credentialFromError(error);
-            console.log(error);
+            console.log(errorMessage);
         });
 })

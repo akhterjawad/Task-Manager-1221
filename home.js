@@ -8,6 +8,7 @@ onAuthStateChanged(auth, (user) => {
         const uid = user.uid;
         console.log(uid);
     } else {
+        console.log('user login nahi ha');
         window.location = 'index.html'
     }
 });
