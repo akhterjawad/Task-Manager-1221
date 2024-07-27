@@ -27,16 +27,11 @@ form.addEventListener('submit', (event) => {
             const errorCode = error.code;
             const errorMessage = error.message;
             console.log(errorMessage);
-            if (email.value == '' && password.value == '') {
-                alert('fill the input')
-            } else {
-                alert(errorMessage)
-            }
-            email.value = ''
-            password.value = ''
+            email.value = '';
+            password.value = '';
         });
 
-})
+});
 
 google_btn.addEventListener('click', () => {
     console.log('google');
