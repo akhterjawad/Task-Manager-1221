@@ -5,7 +5,7 @@ import {
 import { auth, db } from "./config.js";
 import { collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-firestore.js";
 
-// Select the logout button, form, title input, description input, and main div from the DOM
+// Select the logout button, form, title input, description input, and main div from the DOM,HTML
 const logout = document.querySelector("#logout");
 let form = document.querySelector('#form');
 let title = document.querySelector('#title');
