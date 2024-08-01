@@ -33,10 +33,13 @@ logout.addEventListener("click", () => {
     });
 });
 
+let array = [];
+
 // Fetch data from Firestore
 async function GetDataFromFirestore() {
-    let array = [];
+    // array.length=0;
     const querySnapshot = await getDocs(collection(db, "post"));  // Get all documents from the "post" collection
+
     querySnapshot.forEach((doc) => {
         array.push(doc.data());  // Add document data to array
     });
@@ -45,11 +48,13 @@ async function GetDataFromFirestore() {
     array.map((item) => {
         // Add new entries to the main div
         Div.innerHTML += `<div class="card d-flex justify-content-center">
-            <div class="card-body">
-                <p><span class='h3'>Description</span>: ${item.description}</p>
-                <p><span class='h3'>Title</span>: ${item.title}</p>
+            <div class="card-body ">
+                <p><span class='h4'>Description:</span> ${item.description}</p>
+                <p><span class='h4'>Title:</span> ${item.title}</p>
+                <button type="button" class="btn button btn-danger">delete</button><button type="button" class="btn button btn-success">edit</button>
+                </div>
             </div>
-        </div><br/>`
+        <br/>`
     });
 }
 
