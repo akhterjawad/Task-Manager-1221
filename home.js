@@ -43,23 +43,45 @@ logout.addEventListener("click", () => {
 });
 
 
-form.addEventListener('submit',async event=>{
+form.addEventListener('submit', async event => {
     event.preventDefault()
     try {
-        
+Div.innerHTML=``;
         const docRef = await addDoc(collection(db, "users"), {
-          firstName: title.value,
-          firstLast:description.value,
-          Uid:auth.currentUser.uid
+            firstName: title.value,
+            lastName: description.value,
+            Uid: auth.currentUser.uid
         })
         console.log("Document written with ID: ", docRef.id);
-      } catch (e) {
+GetDataFromFirestore()
+    } catch (e) {
         console.error("Error adding document: ", e);
-      }
+    }
 })
-
-
-
+let array = [];
+async function GetDataFromFirestore() {
+    array=[];
+    const querySnapshot = await getDocs(collection(db, "users"));
+    querySnapshot.forEach((doc) => {
+        console.log(doc.data());
+        array.push(doc.data());
+    });
+    Div.innerHTML = '';  // Clear previous entries in the main div
+    array.map((item) => {
+        // Add new entries to the main div
+        Div.innerHTML += `<div class="card d-flex justify-content-center">
+            <div class="card-body ">
+                <p><span class='h4'>Description:</span> ${item.firstName}</p>
+                <p><span class='h4'>Title:</span> ${item.lastName}</p>
+                <button type="button" class="btn button btn-danger delete-btn" >delete</button>
+                <button type="button" class="btn button btn-success edit-btn">edit</button>
+                </div>
+            </div>
+        <br/>`
+    })
+    console.log(array);
+};
+GetDataFromFirestore()
 
 
 
@@ -99,7 +121,7 @@ form.addEventListener('submit',async event=>{
 //         <br/>`
 //     });
 
-//     // delete button  
+//     // delete button
 //     let deleteButtons = document.querySelectorAll('.delete-btn');
 //     deleteButtons.forEach((btn, index) => {
 //         btn.addEventListener('click', async () => {
