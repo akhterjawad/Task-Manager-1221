@@ -10,6 +10,10 @@ import {
     doc,
     deleteDoc,
     updateDoc,
+    Timestamp,
+    query,
+    where,
+    orderBy
 } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-firestore.js";
 
 import { auth, db } from "./config.js";
@@ -20,6 +24,10 @@ let form = document.querySelector('#form');
 let title = document.querySelector('#title');
 let description = document.querySelector('#value');
 let Div = document.querySelector('#MainDiv');
+const select = document.querySelector("#select");
+const citiesBtn = document.querySelectorAll(".cities-btn");
+const reset = document.querySelector(".reset");
+
 
 // Monitor authentication state changes
 onAuthStateChanged(auth, (user) => {
@@ -32,6 +40,8 @@ onAuthStateChanged(auth, (user) => {
     }
 });
 
+
+
 // Handle logout button click
 logout.addEventListener("click", () => {
     signOut(auth).then(() => {
@@ -43,45 +53,132 @@ logout.addEventListener("click", () => {
 });
 
 
-form.addEventListener('submit', async event => {
-    event.preventDefault()
-    try {
-Div.innerHTML=``;
-        const docRef = await addDoc(collection(db, "users"), {
-            firstName: title.value,
-            lastName: description.value,
-            Uid: auth.currentUser.uid
-        })
-        console.log("Document written with ID: ", docRef.id);
-GetDataFromFirestore()
-    } catch (e) {
-        console.error("Error adding document: ", e);
-    }
-})
+
+//global array
 let array = [];
+
+// single city query
+citiesBtn.forEach((btn) => {
+    btn.addEventListener("click", async (event) => {
+        array = [];
+        console.log(event.target.innerHTML);
+        const dataRef = collection(db, "user");
+        const q = query(
+            dataRef,
+            where("city", "==", event.target.innerHTML),
+            orderBy("time", "desc")
+        );
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc) => {
+            array.push({ ...doc.data(), id: doc.id });
+        });
+        console.log(array);
+        renderValue();
+    });
+});
+
+reset.addEventListener("click", GetDataFromFirestore);
+
+
 async function GetDataFromFirestore() {
-    array=[];
+    array = [];
     const querySnapshot = await getDocs(collection(db, "users"));
     querySnapshot.forEach((doc) => {
         console.log(doc.data());
-        array.push(doc.data());
+        array.push({ ...doc.data(), id: doc.id });
     });
+    renderValue()
+    console.log(array);
+};
+GetDataFromFirestore();
+
+
+// add todo in database
+form.addEventListener('submit', async event => {
+    event.preventDefault()
+    try {
+        Div.innerHTML = ``;
+        const docRef = await addDoc(collection(db, "users"), {
+            title: title.value,
+            description: description.value,
+            time: Timestamp.fromDate(new Date()),
+            Uid: auth.currentUser.uid
+        })
+        console.log("Document written with ID: ", docRef.id);
+        array.push({
+            title: title.value,
+            description: description.value,
+            id: docRef.id,
+            city: select.value,
+        });
+        renderValue();
+        title.value = ``;
+        description.value = ``;
+    } catch (e) {
+        console.error("Error adding document: ", e);
+    }
+});
+
+
+
+
+let deleteButton = document.querySelectorAll('.delete-btn');
+let editButton = document.querySelectorAll('.edit-btn');
+
+
+
+
+deleteButton.forEach((btn, index) => {
+    btn.addEventListener("click", async () => {
+        console.log(array[index]);
+        await deleteDoc(doc(db, "users", array[index].id));
+        console.log("Data deleted");
+        array.splice(index, 1);
+        renderValue();
+    });
+});
+
+editButton.forEach((btn, index) => {
+    btn.addEventListener("click", async () => {
+        console.log(array[index]);
+        const updatedNewTitle = prompt("enter new title");
+        const updatedNewDescription = prompt("enter new description");
+        const dataUpdate = doc(db, "users", array[index].id);
+        await updateDoc(dataUpdate, {
+            title: updatedNewTitle,
+            description: updatedNewDescription
+        });
+        console.log("Data updated");
+        array[index].description = updatedNewDescription;
+        array[index].title = updatedNewTitle;
+        renderValue();
+    });
+});
+
+
+
+
+
+function renderValue() {
     Div.innerHTML = '';  // Clear previous entries in the main div
+    if (array.length === 0) {
+        Div.innerHTML = "no data found";
+        return;
+    }
     array.map((item) => {
         // Add new entries to the main div
         Div.innerHTML += `<div class="card d-flex justify-content-center">
             <div class="card-body ">
-                <p><span class='h4'>Description:</span> ${item.firstName}</p>
-                <p><span class='h4'>Title:</span> ${item.lastName}</p>
+                <p><span class='h4'>Description:</span> ${item.title}</p>
+                <p><span class='h4'>Title:</span> ${item.description}</p>
                 <button type="button" class="btn button btn-danger delete-btn" >delete</button>
                 <button type="button" class="btn button btn-success edit-btn">edit</button>
                 </div>
+                <p>${item.time ? item.time.toDate() : "no time"}</p>
             </div>
         <br/>`
-    })
-    console.log(array);
+    });
 };
-GetDataFromFirestore()
 
 
 
