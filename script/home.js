@@ -101,13 +101,13 @@ form.addEventListener('submit', async event => {
             Uid: auth.currentUser.uid  // Store the current user's UID
         });
         console.log("Document written with ID: ", docRef.id);  // Log the new document ID
-        GetDataFromFirestore();
-        // array.push({
-        //     title: title.value,
-        //     description: description.value,
-        //     id: docRef.id,
-        //     city: select.value,
-        // });
+        // GetDataFromFirestore();
+        array.push({
+            title: title.value,
+            description: description.value,
+            id: docRef.id,
+            city: select.value,
+        });
         renderValue();  // Render the updated data
         title.value = ``;  // Clear the title input field
         description.value = ``;  // Clear the description input field
