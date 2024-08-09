@@ -1,15 +1,15 @@
 // Import the functions you need from the SDKs you need
 import { createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-auth.js";
-import { auth } from "./config.js";
+import { auth } from "../config.js";
 
 // Select the form, email input, password input, and Google button from the DOM
 const form = document.querySelector("#form");
 const email = document.querySelector("#email");
 const password = document.querySelector("#password");
-let google_btn = document.querySelector('.google_btn');
+// let google_btn = document.querySelector('.google_btn');
 
 // Google authentication provider (assuming you'll add Google sign-in later)
-const provider = new GoogleAuthProvider();
+// const provider = new GoogleAuthProvider();
 
 // Handle form submission
 form.addEventListener('submit', (event) => {
@@ -19,7 +19,7 @@ form.addEventListener('submit', (event) => {
             const user = userCredential.user; // Get the user object from the user credential
             console.log(user);
             alert('You are registered');
-            window.location = 'index.html'; // Redirect to index.html
+            window.location = '../index.html'; // Redirect to index.html
         })
         .catch((error) => {
             const errorMessage = error.message; // Get the error message

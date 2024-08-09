@@ -17,13 +17,13 @@ import {
     orderBy
 } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-firestore.js";
 
-import { auth, db } from "./config.js";
+import { auth, db } from "../config.js";
 
 // Select the logout button, form, title input, description input, and main div from the DOM
 const logout = document.querySelector("#logout");
 let form = document.querySelector('#form');
-let title = document.querySelector('#title');
-let description = document.querySelector('#value');
+let description = document.querySelector('#title');
+let title = document.querySelector('#Description');
 let Div = document.querySelector('#MainDiv');
 const select = document.querySelector("#select");
 const citiesBtn = document.querySelectorAll(".cities-btn");
@@ -36,7 +36,7 @@ onAuthStateChanged(auth, (user) => {
         console.log(uid);
     } else {
         console.log('user login nahi ha');  // User is not signed in
-        window.location = 'index.html';  // Redirect to index.html
+        window.location = '../index.html';  // Redirect to index.html
     }
 });
 
@@ -44,7 +44,7 @@ onAuthStateChanged(auth, (user) => {
 logout.addEventListener("click", () => {
     signOut(auth).then(() => {
         console.log('logout successfully');  // Successfully logged out
-        window.location = 'index.html';  // Redirect to index.html
+        window.location = '../index.html';  // Redirect to index.html
     }).catch((error) => {
         console.log(error.message);  // Log any errors during sign-out
     });
@@ -101,12 +101,13 @@ form.addEventListener('submit', async event => {
             Uid: auth.currentUser.uid  // Store the current user's UID
         });
         console.log("Document written with ID: ", docRef.id);  // Log the new document ID
-        array.push({
-            title: title.value,
-            description: description.value,
-            id: docRef.id,
-            city: select.value,
-        });
+        GetDataFromFirestore();
+        // array.push({
+        //     title: title.value,
+        //     description: description.value,
+        //     id: docRef.id,
+        //     city: select.value,
+        // });
         renderValue();  // Render the updated data
         title.value = ``;  // Clear the title input field
         description.value = ``;  // Clear the description input field
@@ -124,7 +125,7 @@ function renderValue() {
     }
     array.map((item, index) => {
         // Add new entries to the main div
-        Div.innerHTML += `<div class="card d-flex justify-content-center">
+        Div.innerHTML += `<div class="card d-flex border mb-3 justify-content-center">
             <div class="card-body ">
                 <p><span class='h4'>Description:</span> ${item.title}</p>
                 <p><span class='h4'>Title:</span> ${item.description}</p>

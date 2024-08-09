@@ -5,7 +5,7 @@ import {
     sendPasswordResetEmail,
     signInWithPopup
 } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-auth.js";
-import { auth } from "./config.js";
+import { auth } from "../config.js";
 
 // Select the form, email input, password input, Google button, and forgot password link from the DOM,html
 const form = document.querySelector("#form");
@@ -25,7 +25,7 @@ form.addEventListener('submit', (event) => {
             const user = userCredential.user; // Get the user object from the user credential
             console.log(user);
             alert('You are logged in');
-            window.location = "home.html"; // Redirect to home.html
+            window.location = "../home.html"; // Redirect to home.html
         })
         .catch((error) => {
             const errorMessage = error.message; // Get the error message
@@ -45,6 +45,7 @@ forgotPassword.addEventListener("click", () => {
         .catch((error) => {
             const errorMessage = error.message;
             console.log(errorMessage); 
+            alert(errorMessage)
         });
 });
 
@@ -56,7 +57,7 @@ google_btn.addEventListener('click', () => {
         .then((result) => {
             const user = result.user; // Get the user object from the result
             console.log(user); 
-            window.location = 'home.html'; // Redirect to home.html
+            window.location = '../home.html'; // Redirect to home.html
         }).catch((error) => {
             const errorMessage = error.message; // Get the error message
             console.log(errorMessage);
