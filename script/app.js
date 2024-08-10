@@ -6,6 +6,7 @@ import {
     signInWithPopup
 } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-auth.js";
 import { auth } from "../config.js";
+// import { auth } from "../config.js";
 
 // Select the form, email input, password input, Google button, and forgot password link from the DOM,html
 const form = document.querySelector("#form");

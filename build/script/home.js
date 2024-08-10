@@ -22,8 +22,8 @@ import { auth, db } from "../config.js";
 // Select the logout button, form, title input, description input, and main div from the DOM
 const logout = document.querySelector("#logout");
 let form = document.querySelector('#form');
-let description = document.querySelector('#title');
-let title = document.querySelector('#Description');
+let title = document.querySelector('#title');
+let description = document.querySelector('#Description');
 let Div = document.querySelector('#MainDiv');
 const select = document.querySelector("#select");
 const citiesBtn = document.querySelectorAll(".cities-btn");
@@ -92,6 +92,8 @@ GetDataFromFirestore();  // Fetch all data on initial load
 // Handle form submission to add a new document to Firestore
 form.addEventListener('submit', async event => {
     event.preventDefault();  // Prevent form from submitting the traditional way
+
+
     try {
         Div.innerHTML = ``;  // Clear the main div
         const docRef = await addDoc(collection(db, "users"), {
@@ -167,8 +169,8 @@ function renderValue() {
                 description: updatedNewDescription
             });
             console.log("Data updated");  // Log successful update
-            array[index].description = updatedNewTitle;  // Update array with new title
-            array[index].title = updatedNewDescription;  // Update array with new description
+            array[index].title = updatedNewTitle;  // Update array with new title
+            array[index].description = updatedNewDescription;  // Update array with new description
             renderValue();  // Re-render the updated data
         });
     });
