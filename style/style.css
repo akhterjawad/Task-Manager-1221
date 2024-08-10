@@ -45,6 +45,7 @@ input[type="password"]::placeholder {
     color: #ddd;
 }
 
+#forgot-password,
 form>button {
     width: 100%;
     padding: 10px;
@@ -58,6 +59,15 @@ form>button {
     transition: background 0.3s ease;
 }
 
+#forgot-password {
+    width: 180px;
+    margin-top: 10px;
+    
+}
+
+#forgot-password:hover {
+    background: #6a11cb;
+}
 form>button:hover {
     background: #6a11cb;
 }

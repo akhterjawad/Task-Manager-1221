@@ -57,18 +57,19 @@ let array = [];
 citiesBtn.forEach((btn) => {
     btn.addEventListener("click", async (event) => {
         array = [];  // Reset array for new city selection
-        console.log(event.target.innerHTML);  // Log the selected city name
+        const cityName = event.target.innerHTML;
+        console.log(cityName);  // Log the selected city name
         const dataRef = collection(db, "users");
         const q = query(
             dataRef,
-            where("city", "==", event.target.innerHTML),
+            where("city", "==", cityName),
             orderBy("time", "desc")
         );
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
             array.push({ ...doc.data(), id: doc.id });  // Store each document data with its ID
         });
-        console.log(array);  
+        console.log(array);
         renderValue();  // Render the data in the DOM
     });
 });
@@ -127,8 +128,8 @@ function renderValue() {
         // Add new entries to the main div
         Div.innerHTML += `<div class="card d-flex border mb-3 justify-content-center">
             <div class="card-body ">
-                <p><span class='h4'>Description:</span> ${item.title}</p>
-                <p><span class='h4'>Title:</span> ${item.description}</p>
+            <p><span class='h4'>Title:</span> ${item.title}</p>
+                <p><span class='h4'>Description:</span> ${item.description}</p>
                 <button type="button" class="btn button btn-danger delete-btn" data-index="${index}">delete</button>
                 <button type="button" class="btn button btn-success edit-btn" data-index="${index}">edit</button>
             </div>
