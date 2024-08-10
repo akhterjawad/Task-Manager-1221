@@ -169,16 +169,12 @@ function renderValue() {
                 description: updatedNewDescription
             });
             console.log("Data updated");  // Log successful update
-            if (updatedNewTitle == ``) {
-                array[index].title
-            } else {
-                array[index].title = updatedNewTitle;  // Update array with new title
+            if (updatedNewTitle != ``) {
+                array[index].title = updatedNewTitle;
             };
-            if (updatedNewDescription == ``) {
-                array[index].description
-            } else {
-                array[index].description = updatedNewDescription;  // Update array with new description
-            }
+            if (updatedNewDescription != ``) {
+                array[index].description = updatedNewDescription;
+            };
             renderValue();  // Re-render the updated data
         });
     });
