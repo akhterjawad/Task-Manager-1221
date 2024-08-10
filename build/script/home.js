@@ -57,12 +57,11 @@ let array = [];
 citiesBtn.forEach((btn) => {
     btn.addEventListener("click", async (event) => {
         array = [];  // Reset array for new city selection
-        const cityName = event.target.innerHTML;
-        console.log(cityName);  // Log the selected city name
+        console.log(event.target.innerHTML);  // Log the selected city name
         const dataRef = collection(db, "users");
         const q = query(
             dataRef,
-            where("city", "==", cityName),
+            where("city", "==", event.target.innerHTML),
             orderBy("time", "desc")
         );
         const querySnapshot = await getDocs(q);
