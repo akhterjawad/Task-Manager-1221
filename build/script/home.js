@@ -168,13 +168,13 @@ function renderValue() {
                 title: updatedNewTitle,
                 description: updatedNewDescription
             });
-            console.log("Data updated");  // Log successful update
-            if (updatedNewTitle != ``) {
+            if (updatedNewTitle !== ``) {
                 array[index].title = updatedNewTitle;
             };
-            if (updatedNewDescription != ``) {
+            if (updatedNewDescription !== ``) {
                 array[index].description = updatedNewDescription;
             };
+            console.log("Data updated");  // Log successful update
             renderValue();  // Re-render the updated data
         });
     });
