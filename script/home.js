@@ -161,8 +161,8 @@ function renderValue() {
         btn.addEventListener("click", async (event) => {
             const index = event.target.getAttribute('data-index');
             console.log(array[index]);  // Log the item to be edited
-            const updatedNewTitle = prompt("enter new title");  // Prompt user for new title
-            const updatedNewDescription = prompt("enter new description");  // Prompt user for new description
+            const updatedNewTitle = prompt("enter new title",array[index].title);  // Prompt user for new title
+            const updatedNewDescription = prompt("enter new description",array[index].description);  // Prompt user for new description
             const dataUpdate = doc(db, "users", array[index].id);
             await updateDoc(dataUpdate, {
                 title: updatedNewTitle,
