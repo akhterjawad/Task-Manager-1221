@@ -23,15 +23,26 @@ form.addEventListener('submit', (event) => {
     signInWithEmailAndPassword(auth, email.value, password.value)
         .then((userCredential) => {
             const user = userCredential.user;
-            console.log(user);
-            alert('You are logged in');
-            window.location = "../home.html";
+            Swal.fire({
+                title: 'Success!',
+                text: 'You are logged in successfully',
+                icon: 'success',
+                confirmButtonText: 'Login'
+            })
+                .then((result) => {
+                    if (result.isConfirmed) {
+                        window.location = '../home.html';
+                    }
+                });
         })
         .catch((error) => {
             const errorMessage = error.message;
-            console.log(errorMessage);
-            email.value = '';
-            password.value = '';
+            Swal.fire({
+                title: 'Error!',
+                text: errorMessage,
+                icon: 'error',
+                confirmButtonText: 'Try Again'
+            });
         });
 });
 
@@ -56,10 +67,26 @@ google_btn.addEventListener('click', () => {
     signInWithPopup(auth, provider)
         .then((result) => {
             const user = result.user;
+            Swal.fire({
+                title: 'Success!',
+                text: 'You are logged in successfully',
+                icon: 'success',
+                confirmButtonText: 'Login'
+            })
+                .then((result) => {
+                    if (result.isConfirmed) {
+                        window.location = '../home.html';
+                    }
+                });
             console.log(user);
-            window.location = '../home.html';
         }).catch((error) => {
             const errorMessage = error.message;
             console.log(errorMessage);
+            Swal.fire({
+                title: 'Error!',
+                text: errorMessage,
+                icon: 'error',
+                confirmButtonText: 'Try Again'
+            });
         });
 });

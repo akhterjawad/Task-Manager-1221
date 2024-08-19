@@ -14,21 +14,33 @@ const password = document.querySelector("#password");
 // Handle form submission
 form.addEventListener('submit', (event) => {
     event.preventDefault();
+    if (email.value == '' && password.value == '') {
+        alert('Please fill in the input fields');
+    }
     createUserWithEmailAndPassword(auth, email.value, password.value)
         .then((userCredential) => {
             const user = userCredential.user;
-            console.log(user);
-            alert('You are registered');
-            window.location = '../index.html';
+            Swal.fire({
+                title: 'Success!',
+                text: 'You are logged in successfully',
+                icon: 'success',
+                confirmButtonText: 'Login'
+            })
+                .then((result) => {
+                    if (result.isConfirmed) {
+                        window.location = '../index.html';
+                    }
+                });
         })
         .catch((error) => {
             const errorMessage = error.message;
             console.log(errorMessage);
-            if (email.value == '' && password.value == '') {
-                alert('Please fill in the input fields');
-            } else {
-                alert(errorMessage);
-            }
+            Swal.fire({
+                title: 'Error!',
+                text: errorMessage,
+                icon: 'error',
+                confirmButtonText: 'Try Again'
+            });
             email.value = '';
             password.value = '';
         });

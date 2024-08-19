@@ -14,15 +14,15 @@ const password = document.querySelector("#password");
 // Handle form submission
 form.addEventListener('submit', (event) => {
     event.preventDefault();
-    createUserWithEmailAndPassword(auth, email.value, password.value) // Create a new user with email and password
+    createUserWithEmailAndPassword(auth, email.value, password.value)
         .then((userCredential) => {
-            const user = userCredential.user; // Get the user object from the user credential
+            const user = userCredential.user;
             console.log(user);
             alert('You are registered');
-            window.location = '../index.html'; // Redirect to index.html
+            window.location = '../index.html';
         })
         .catch((error) => {
-            const errorMessage = error.message; // Get the error message
+            const errorMessage = error.message;
             console.log(errorMessage);
             if (email.value == '' && password.value == '') {
                 alert('Please fill in the input fields');
