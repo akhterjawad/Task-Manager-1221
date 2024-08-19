@@ -32,21 +32,21 @@ const reset = document.querySelector(".reset");
 // Monitor authentication state changes
 onAuthStateChanged(auth, (user) => {
     if (user) {
-        const uid = user.uid;  // User is signed in, get user ID
+        const uid = user.uid;
         console.log(uid);
     } else {
-        console.log('user login nahi ha');  // User is not signed in
-        window.location = '../index.html';  // Redirect to index.html
+        console.log('user login nahi ha');
+        window.location = '../index.html';
     }
 });
 
 // Handle logout button click
 logout.addEventListener("click", () => {
     signOut(auth).then(() => {
-        console.log('logout successfully');  // Successfully logged out
-        window.location = '../index.html';  // Redirect to index.html
+        console.log('logout successfully');
+        window.location = '../index.html';
     }).catch((error) => {
-        console.log(error.message);  // Log any errors during sign-out
+        console.log(error.message);
     });
 });
 
@@ -56,9 +56,9 @@ let array = [];
 // Handle city selection and query Firestore for documents matching the selected city
 citiesBtn.forEach((btn) => {
     btn.addEventListener("click", async (event) => {
-        array = [];  // Reset array for new city selection
+        array = [];
         const cityName = event.target.innerHTML;
-        console.log(cityName);  // Log the selected city name
+        console.log(cityName);
         const dataRef = collection(db, "users");
         const q = query(
             dataRef,
@@ -67,10 +67,10 @@ citiesBtn.forEach((btn) => {
         );
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
-            array.push({ ...doc.data(), id: doc.id });  // Store each document data with its ID
+            array.push({ ...doc.data(), id: doc.id });
         });
         console.log(array);
-        renderValue();  // Render the data in the DOM
+        renderValue();
     });
 });
 
@@ -81,21 +81,21 @@ async function GetDataFromFirestore() {
     array = [];  // Reset array
     const querySnapshot = await getDocs(collection(db, "users"));
     querySnapshot.forEach((doc) => {
-        console.log(doc.data());  // Log each document data
-        array.push({ ...doc.data(), id: doc.id });  // Store each document data with its ID
+        console.log(doc.data());
+        array.push({ ...doc.data(), id: doc.id });
     });
-    renderValue();  // Render the data in the DOM
-    console.log(array);  // Log the updated array
+    renderValue();
+    console.log(array);
 };
-GetDataFromFirestore();  // Fetch all data on initial load
+GetDataFromFirestore();
 
 // Handle form submission to add a new document to Firestore
 form.addEventListener('submit', async event => {
-    event.preventDefault();  // Prevent form from submitting the traditional way
+    event.preventDefault();
 
 
     try {
-        Div.innerHTML = ``;  // Clear the main div
+        Div.innerHTML = ``;
         const docRef = await addDoc(collection(db, "users"), {
             title: title.value,
             description: description.value,
@@ -103,7 +103,7 @@ form.addEventListener('submit', async event => {
             time: Timestamp.fromDate(new Date()),
             Uid: auth.currentUser.uid  // Store the current user's UID
         });
-        console.log("Document written with ID: ", docRef.id);  // Log the new document ID
+        console.log("Document written with ID: ", docRef.id);
         // GetDataFromFirestore();
         array.push({
             title: title.value,
@@ -111,19 +111,19 @@ form.addEventListener('submit', async event => {
             id: docRef.id,
             city: select.value,
         });
-        renderValue();  // Render the updated data
-        title.value = ``;  // Clear the title input field
-        description.value = ``;  // Clear the description input field
+        renderValue();
+        title.value = ``;
+        description.value = ``;
     } catch (e) {
-        console.error("Error adding document: ", e);  // Log any errors
+        console.error("Error adding document: ", e);
     }
 });
 
 // Function to render the data stored in the global array
 function renderValue() {
-    Div.innerHTML = '';  // Clear previous entries in the main div
+    Div.innerHTML = '';
     if (array.length === 0) {
-        Div.innerHTML = "no data found";  // Display message if no data found
+        Div.innerHTML = "no data found";
         return;
     }
     array.map((item, index) => {
@@ -148,11 +148,11 @@ function renderValue() {
     deleteButton.forEach((btn) => {
         btn.addEventListener("click", async (event) => {
             const index = event.target.getAttribute('data-index');
-            console.log(array[index]);  // Log the item to be deleted
-            await deleteDoc(doc(db, "users", array[index].id));  // Delete the document
-            console.log("Data deleted");  // Log successful deletion
-            array.splice(index, 1);  // Remove the item from the array
-            renderValue();  // Re-render the remaining data
+            console.log(array[index]);
+            await deleteDoc(doc(db, "users", array[index].id));
+            console.log("Data deleted");
+            array.splice(index, 1);
+            renderValue();
         });
     });
 
@@ -160,9 +160,9 @@ function renderValue() {
     editButton.forEach((btn) => {
         btn.addEventListener("click", async (event) => {
             const index = event.target.getAttribute('data-index');
-            console.log(array[index]);  // Log the item to be edited
-            const updatedNewTitle = prompt("enter new title",array[index].title);  // Prompt user for new title
-            const updatedNewDescription = prompt("enter new description",array[index].description);  // Prompt user for new description
+            console.log(array[index]);
+            const updatedNewTitle = prompt("enter new title", array[index].title);
+            const updatedNewDescription = prompt("enter new description", array[index].description);
             const dataUpdate = doc(db, "users", array[index].id);
             await updateDoc(dataUpdate, {
                 title: updatedNewTitle,
@@ -174,8 +174,8 @@ function renderValue() {
             if (updatedNewDescription !== ``) {
                 array[index].description = updatedNewDescription;
             };
-            renderValue();  // Re-render the updated data
-            console.log("Data updated");  // Log successful update
+            renderValue();
+            console.log("Data updated");
         });
     });
 }

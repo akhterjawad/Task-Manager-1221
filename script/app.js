@@ -6,7 +6,6 @@ import {
     signInWithPopup
 } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-auth.js";
 import { auth } from "../config.js";
-// import { auth } from "../config.js";
 
 // Select the form, email input, password input, Google button, and forgot password link from the DOM,html
 const form = document.querySelector("#form");
@@ -21,46 +20,46 @@ const provider = new GoogleAuthProvider();
 // Handle form submission for email and password sign-in
 form.addEventListener('submit', (event) => {
     event.preventDefault();
-    signInWithEmailAndPassword(auth, email.value, password.value) // Sign in with email and password
+    signInWithEmailAndPassword(auth, email.value, password.value)
         .then((userCredential) => {
-            const user = userCredential.user; // Get the user object from the user credential
+            const user = userCredential.user;
             console.log(user);
             alert('You are logged in');
-            window.location = "../home.html"; // Redirect to home.html
+            window.location = "../home.html";
         })
         .catch((error) => {
-            const errorMessage = error.message; // Get the error message
-            console.log(errorMessage); 
-            email.value = ''; 
-            password.value = ''; 
+            const errorMessage = error.message;
+            console.log(errorMessage);
+            email.value = '';
+            password.value = '';
         });
 });
 
 // Handle forgot password link click
 forgotPassword.addEventListener("click", () => {
-    const resetEmail = prompt("Enter your email"); 
-    sendPasswordResetEmail(auth, resetEmail) // Send a password reset email
+    const resetEmail = prompt("Enter your email");
+    sendPasswordResetEmail(auth, resetEmail)
         .then(() => {
             alert("Email sent");
         })
         .catch((error) => {
             const errorMessage = error.message;
-            console.log(errorMessage); 
+            console.log(errorMessage);
             alert(errorMessage)
         });
 });
 
 // Handle Google sign-in button click
 google_btn.addEventListener('click', () => {
-    console.log('Google sign-in initiated'); 
+    console.log('Google sign-in initiated');
 
-    signInWithPopup(auth, provider) // Sign in with Google using a popup
+    signInWithPopup(auth, provider)
         .then((result) => {
-            const user = result.user; // Get the user object from the result
-            console.log(user); 
-            window.location = '../home.html'; // Redirect to home.html
+            const user = result.user;
+            console.log(user);
+            window.location = '../home.html';
         }).catch((error) => {
-            const errorMessage = error.message; // Get the error message
+            const errorMessage = error.message;
             console.log(errorMessage);
         });
 });
